@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">LK21</string>
+    <string name="movies">Movies</string>
+    <string name="tv">Tv Show</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="favorite">Favorite</string>
+    <string name="settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Input Keyword</string>
+    <string name="view_all">View All</string>
+    <string name="overview">Overview</string>
+    <string name="sipiderman">Sipiderman</string>
+    <string name="dummy_over">dummy_over</string>
+</resources>
