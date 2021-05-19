@@ -27,12 +27,14 @@
             android:fontFamily="@font/poppins_semibold"
             android:text="@string/view_all"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="end"
             android:textColor="@color/red"
             android:textSize="@dimen/f_14"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"/>
+            android:foreground="?android:attr/selectableItemBackground"
+            tools:ignore="RtlHardcoded"
+            tools:targetApi="m" />
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_movie"
@@ -63,12 +65,13 @@
             android:fontFamily="@font/poppins_semibold"
             android:text="@string/view_all"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="end"
             android:textColor="@color/red"
             android:textSize="@dimen/f_14"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"/>
+            android:foreground="?android:attr/selectableItemBackground"
+            tools:targetApi="m" />
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_tv"

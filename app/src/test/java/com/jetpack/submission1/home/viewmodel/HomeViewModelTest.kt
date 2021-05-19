@@ -1,12 +1,9 @@
 package com.jetpack.submission1.home.viewmodel
 
-import com.jetpack.submission1.detail.viewmodel.DetailViewModel
-import com.jetpack.submission1.util.DataDummyMovie
-import com.jetpack.submission1.util.DataDummyTv
-import org.junit.Test
-
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
+import org.junit.Test
 
 class HomeViewModelTest {
     private lateinit var viewModel: HomeViewModel

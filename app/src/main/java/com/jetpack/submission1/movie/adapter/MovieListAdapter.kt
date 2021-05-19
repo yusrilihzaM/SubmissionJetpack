@@ -37,9 +37,9 @@ class MovieListAdapter: RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>()
                     .apply(
                         RequestOptions.placeholderOf(circularProgressDrawable)
                             .error(R.drawable.ic_error))
-                    .into(imgPoster)
-                title.text=movieEntity.titleMovie
-                overview.text=movieEntity.overviewMovie
+                    .into(imgPosterView)
+                titleView.text=movieEntity.titleMovie
+                overviewView.text=movieEntity.overviewMovie
             }
             itemView.setOnClickListener { onItemClickCallback?.onItemClicked(movieEntity) }
         }

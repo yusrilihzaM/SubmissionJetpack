@@ -7,11 +7,9 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.jetpack.submission1.R
-import com.jetpack.submission1.data.MovieEntity
 import com.jetpack.submission1.data.TvEntity
 import com.jetpack.submission1.databinding.ItemListBinding
-import com.jetpack.submission1.movie.adapter.MovieListAdapter
-import java.util.ArrayList
+import java.util.*
 
 class TvListAdapter : RecyclerView.Adapter<TvListAdapter.MovieViewHolder>()  {
     private var onItemClickCallback: OnItemClickCallback? = null
@@ -37,9 +35,9 @@ class TvListAdapter : RecyclerView.Adapter<TvListAdapter.MovieViewHolder>()  {
                     .apply(
                         RequestOptions.placeholderOf(circularProgressDrawable)
                             .error(R.drawable.ic_error))
-                    .into(imgPoster)
-                title.text=tvEntity.titleTv
-                overview.text=tvEntity.overviewTv
+                    .into(imgPosterView)
+                titleView.text=tvEntity.titleTv
+                overviewView.text=tvEntity.overviewTv
             }
             itemView.setOnClickListener { onItemClickCallback?.onItemClicked(tvEntity) }
         }

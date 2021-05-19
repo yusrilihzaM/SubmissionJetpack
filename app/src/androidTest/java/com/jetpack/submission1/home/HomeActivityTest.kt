@@ -25,7 +25,7 @@ class HomeActivityTest{
         onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(dummyMovie.size))
     }
     @Test
-    fun loadMTv() {
+    fun loadTv() {
         onView(withId(R.id.rv_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_tv)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(dummyTv.size))
     }
@@ -35,7 +35,7 @@ class HomeActivityTest{
         onView(withId(R.id.img_poster)).check(matches(isDisplayed()))
     }
     @Test
-    fun loadPosterTb() {
+    fun loadPosterTv() {
         onView(withId(R.id.rv_tv)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
         onView(withId(R.id.img_poster)).check(matches(isDisplayed()))
     }
@@ -49,6 +49,24 @@ class HomeActivityTest{
     @Test
     fun loadDetailTv() {
         onView(withId(R.id.rv_tv)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.img_poster)).check(matches(isDisplayed()))
+        onView(withId(R.id.overview)).check(matches(isDisplayed()))
+        onView(withId(R.id.overview)).check(matches(withText(dummyTv[0].overviewTv)))
+    }
+    @Test
+    fun loadViewAllMovie() {
+        onView(withId(R.id.viewMovie)).perform(click())
+        onView(withId(R.id.rv_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(dummyMovie.size))
+        onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.img_poster)).check(matches(isDisplayed()))
+        onView(withId(R.id.overview)).check(matches(isDisplayed()))
+        onView(withId(R.id.overview)).check(matches(withText(dummyMovie[0].overviewMovie)))
+    }
+    @Test
+    fun loadViewAllTv() {
+        onView(withId(R.id.viewTv)).perform(click())
+        onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
         onView(withId(R.id.img_poster)).check(matches(isDisplayed()))
         onView(withId(R.id.overview)).check(matches(isDisplayed()))
         onView(withId(R.id.overview)).check(matches(withText(dummyTv[0].overviewTv)))
