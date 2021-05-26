@@ -1,7 +1,7 @@
 package com.jetpack.submission1.util
 
-import com.jetpack.submission1.data.MovieEntity
 import com.jetpack.submission1.data.TvEntity
+import com.jetpack.submission1.data.source.remote.response.*
 import java.util.ArrayList
 
 object DataDummyTv {
@@ -131,4 +131,154 @@ object DataDummyTv {
             ))
         return tv
     }
+    fun getDummyRemoteTv(): List<TvResultsItem> {
+        val tv = ArrayList<TvResultsItem>()
+
+        tv.add(
+            TvResultsItem(
+                "2004-05-10",
+                "I Am Not An Animal is an animated comedy series about the only six talking animals in the world, whose cosseted existence in a vivisection unit is turned upside down when they are liberated by animal rights activists.",
+                "en",
+                listOf(16, 35),
+                "/qG59J1Q7rpBc1dvku4azbzcqo8h.jpg",
+                listOf("GB"),
+                "",
+                "I Am Not an Animal",
+                6.895,
+                9.4,
+                "I Am Not an Animal",
+                100,
+                621,
+
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+        tv.add(
+            TvResultsItem(
+                "", "", "", listOf(), "", listOf(), "", "", 0.0, 0.0, "", 0, 0,
+            )
+        )
+
+        return tv
+    }
+    fun getDummyTvById(): TvByIdResponse =
+        TvByIdResponse(
+            "en",
+            0,
+            "Scripted",
+            "",
+            6.895,
+            100,
+            0,
+            622,
+            "2004-06-14",
+            "I Am Not An Animal is an animated comedy series about the only six talking animals in the world, whose cosseted existence in a vivisection unit is turned upside down when they are liberated by animal rights activists.",
+            listOf("en"),
+            listOf(),
+           "/qG59J1Q7rpBc1dvku4azbzcqo8h.jpg",
+            "",
+            "I Am Not an Animal",
+            "",
+            false,
+        )
+
+    fun getDummyTvImage(): PostersItem =
+        PostersItem(
+            0.6666666666666666,
+            "/qG59J1Q7rpBc1dvku4azbzcqo8h.jpg",
+            5.246,
+            960,
+            "en",
+            2,
+            1440,
+        )
 }

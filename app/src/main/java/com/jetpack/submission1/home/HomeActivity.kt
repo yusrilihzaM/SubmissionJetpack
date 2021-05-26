@@ -8,12 +8,13 @@ import android.os.Bundle
 import android.text.Html
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import com.jetpack.submission1.R
-import com.jetpack.submission1.data.MovieEntity
-import com.jetpack.submission1.data.TvEntity
+import com.jetpack.submission1.data.source.remote.response.MoviesResultsItem
+import com.jetpack.submission1.data.source.remote.response.TvResultsItem
 import com.jetpack.submission1.databinding.ActivityHomeBinding
 import com.jetpack.submission1.detail.DetailActivity
 import com.jetpack.submission1.home.adapter.MovieCardAdapter
@@ -21,9 +22,11 @@ import com.jetpack.submission1.home.adapter.TvCardAdapter
 import com.jetpack.submission1.home.viewmodel.HomeViewModel
 import com.jetpack.submission1.movie.MovieActivity
 import com.jetpack.submission1.tv.TvActivity
+import com.jetpack.submission1.viewmodel.ViewModelFactory
 
 @Suppress("DEPRECATION")
 class HomeActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityHomeBinding
     private lateinit var movieCardAdapter: MovieCardAdapter
     private lateinit var tvCardAdapter: TvCardAdapter
@@ -41,39 +44,50 @@ class HomeActivity : AppCompatActivity() {
         binding.viewTv.setOnClickListener {
             startActivity(Intent(this, TvActivity::class.java))
         }
-        movieCardAdapter.setOnItemClickCallback(object :MovieCardAdapter.OnItemClickCallback{
-            override fun onItemClicked(data: MovieEntity) {
-                Toast.makeText(this@HomeActivity, data.titleMovie, Toast.LENGTH_SHORT).show()
-                val intent=Intent(this@HomeActivity, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.EXTRA_DATA_MOVIE,data)
-                startActivity(intent)
-            }
-        })
-        tvCardAdapter.setOnItemClickCallback(object :TvCardAdapter.OnItemClickCallback{
-            override fun onItemClicked(data: TvEntity) {
-                Toast.makeText(this@HomeActivity, data.titleTv, Toast.LENGTH_SHORT).show()
-                val intent=Intent(this@HomeActivity, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.EXTRA_DATA_TV,data)
-                startActivity(intent)
-            }
-        })
+
+
+
     }
 
     private fun showMovies(){
-        val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[HomeViewModel::class.java]
-        val movies=viewModel.getMovies()
-        binding.rvMovie.setHasFixedSize(true)
-        movieCardAdapter= MovieCardAdapter()
-        movieCardAdapter.setMovies(movies)
-        binding.rvMovie.adapter=movieCardAdapter
+        val factory = ViewModelFactory.getInstance(this)
+        val viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
+        viewModel.getMovies().observe(this,{movies->
+            showLoading(false)
+            binding.rvMovie.setHasFixedSize(true)
+            movieCardAdapter= MovieCardAdapter()
+            movieCardAdapter.setMovies(movies)
+            binding.rvMovie.adapter=movieCardAdapter
+            movieCardAdapter.setOnItemClickCallback(object :MovieCardAdapter.OnItemClickCallback{
+                override fun onItemClicked(data: MoviesResultsItem) {
+                    Toast.makeText(this@HomeActivity, data.title, Toast.LENGTH_SHORT).show()
+                    val intent=Intent(this@HomeActivity, DetailActivity::class.java)
+                intent.putExtra(DetailActivity.EXTRA_DATA_MOVIE,data.id)
+                startActivity(intent)
+                }
+            })
+        })
+
     }
     private fun showTvShow(){
-        val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[HomeViewModel::class.java]
-        val tv=viewModel.getTv()
-        binding.rvTv.setHasFixedSize(true)
-        tvCardAdapter= TvCardAdapter()
-        tvCardAdapter.setTv(tv)
-        binding.rvTv.adapter=tvCardAdapter
+        val factory = ViewModelFactory.getInstance(this)
+        val viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
+        viewModel.getTv().observe(this,{tv->
+            showLoading(false)
+            binding.rvTv.setHasFixedSize(true)
+            tvCardAdapter= TvCardAdapter()
+            tvCardAdapter.setTv(tv)
+            binding.rvTv.adapter=tvCardAdapter
+            tvCardAdapter.setOnItemClickCallback(object :TvCardAdapter.OnItemClickCallback{
+                override fun onItemClicked(data: TvResultsItem) {
+                    Toast.makeText(this@HomeActivity, data.name, Toast.LENGTH_SHORT).show()
+                    val intent=Intent(this@HomeActivity, DetailActivity::class.java)
+                    intent.putExtra(DetailActivity.EXTRA_DATA_TV,data.id)
+                    startActivity(intent)
+                }
+            })
+        })
+
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater=menuInflater
@@ -101,14 +115,20 @@ class HomeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.settings -> {
-//                startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
             R.id.favorite -> {
-//                startActivity(Intent(this, FavoriteActivity::class.java))
                 true
             }
             else -> true
+        }
+    }
+
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
         }
     }
 }

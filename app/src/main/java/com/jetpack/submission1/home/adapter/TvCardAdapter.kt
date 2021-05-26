@@ -6,26 +6,27 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.jetpack.submission1.BuildConfig
 import com.jetpack.submission1.R
-import com.jetpack.submission1.data.TvEntity
+import com.jetpack.submission1.data.source.remote.response.TvResultsItem
 import com.jetpack.submission1.databinding.ItemCardBinding
-import com.jetpack.submission1.tv.adapter.TvListAdapter
 import java.util.*
 
 class TvCardAdapter: RecyclerView.Adapter<TvCardAdapter.TvViewHolder>() {
+
     private var onItemClickCallback: TvCardAdapter.OnItemClickCallback? = null
     fun setOnItemClickCallback(onItemClickCallback: TvCardAdapter.OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
-    private var listTvs = ArrayList<TvEntity>()
-    fun setTv(tv: List<TvEntity>?) {
+    private var listTvs = ArrayList<TvResultsItem>()
+    fun setTv(tv: List<TvResultsItem>) {
         if (tv == null) return
         this.listTvs.clear()
         this.listTvs.addAll(tv)
     }
 
     inner class TvViewHolder(private val binding: ItemCardBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(tvEntity: TvEntity) {
+        fun bind(tvEntity: TvResultsItem) {
             val circularProgressDrawable = CircularProgressDrawable(itemView.context)
             circularProgressDrawable.strokeWidth = 5f
             circularProgressDrawable.centerRadius = 30f
@@ -33,7 +34,7 @@ class TvCardAdapter: RecyclerView.Adapter<TvCardAdapter.TvViewHolder>() {
 
             with(binding) {
                 Glide.with(itemView.context)
-                    .load(tvEntity.imgTv)
+                    .load(URL_IMAGE+tvEntity.posterPath)
                     .apply(
                         RequestOptions.placeholderOf(circularProgressDrawable)
                             .error(R.drawable.ic_error)
@@ -54,6 +55,9 @@ class TvCardAdapter: RecyclerView.Adapter<TvCardAdapter.TvViewHolder>() {
     }
     override fun getItemCount(): Int = listTvs.size
     interface OnItemClickCallback {
-        fun onItemClicked(data: TvEntity)
+        fun onItemClicked(data: TvResultsItem)
+    }
+    companion object {
+        private const val URL_IMAGE= BuildConfig.URL_IMAGE
     }
 }

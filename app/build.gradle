@@ -16,6 +16,13 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        each {
+            it.buildConfigField "String", "API_KEY", API_KEY
+            it.buildConfigField "String", "URL_TMDB", URL_TMDB
+            it.buildConfigField "String", "URL_MOVIE_TOP_RATED", URL_MOVIE_TOP_RATED
+            it.buildConfigField "String", "URL_TV_TOP_RATED", URL_TV_TOP_RATED
+            it.buildConfigField "String", "URL_IMAGE", URL_IMAGE
+        }
     }
 
     buildTypes {
@@ -60,4 +67,13 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$androidTestVersion"
     androidTestImplementation "androidx.test:rules:$androidTestVersion"
     androidTestImplementation "androidx.test.ext:junit:$junitExtversion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+    testImplementation "androidx.arch.core:core-testing:$androidCoreTestVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+    implementation "androidx.test.espresso:espresso-idling-resource:$idleResourceVersion"
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
 }

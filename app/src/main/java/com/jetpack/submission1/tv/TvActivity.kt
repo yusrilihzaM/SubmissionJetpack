@@ -5,15 +5,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.jetpack.submission1.R
-import com.jetpack.submission1.data.TvEntity
+import com.jetpack.submission1.data.source.remote.response.TvResultsItem
 import com.jetpack.submission1.databinding.ActivityTvBinding
 import com.jetpack.submission1.detail.DetailActivity
 import com.jetpack.submission1.home.viewmodel.HomeViewModel
 import com.jetpack.submission1.tv.adapter.TvListAdapter
+import com.jetpack.submission1.viewmodel.ViewModelFactory
 
 @Suppress("DEPRECATION")
 class TvActivity : AppCompatActivity() {
@@ -30,22 +32,27 @@ class TvActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(upArrow)
         supportActionBar?.title = Html.fromHtml("<font color=\"black\">" + getString(R.string.tv) + "</font>")
         showTvShow()
-        tvListAdapter.setOnItemClickCallback(object : TvListAdapter.OnItemClickCallback{
-            override fun onItemClicked(data: TvEntity) {
-                Toast.makeText(this@TvActivity, data.titleTv, Toast.LENGTH_SHORT).show()
-                val intent= Intent(this@TvActivity, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.EXTRA_DATA_TV,data)
-                startActivity(intent)
-            }
-        })
+
     }
     private fun showTvShow(){
-        val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[HomeViewModel::class.java]
-        val tv=viewModel.getTv()
-        binding.rvMovie.setHasFixedSize(true)
-        tvListAdapter= TvListAdapter()
-        tvListAdapter.setTv(tv)
-        binding.rvMovie.adapter=tvListAdapter
+        val factory = ViewModelFactory.getInstance(this)
+        val viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
+        viewModel.getTv().observe(this,{tv->
+            showLoading(false)
+            binding.rvMovie.setHasFixedSize(true)
+            tvListAdapter= TvListAdapter()
+            tvListAdapter.setTv(tv)
+            binding.rvMovie.adapter=tvListAdapter
+            tvListAdapter.setOnItemClickCallback(object : TvListAdapter.OnItemClickCallback{
+                override fun onItemClicked(data: TvResultsItem) {
+                    Toast.makeText(this@TvActivity, data.originalName, Toast.LENGTH_SHORT).show()
+                    val intent= Intent(this@TvActivity, DetailActivity::class.java)
+                    intent.putExtra(DetailActivity.EXTRA_DATA_TV,data.id)
+                    startActivity(intent)
+                }
+            })
+        })
+
     }
     override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
         return super.onCreateOptionsMenu(menu)
@@ -58,6 +65,13 @@ class TvActivity : AppCompatActivity() {
                 true
             }
             else -> true
+        }
+    }
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
         }
     }
 }

@@ -1,6 +1,10 @@
 package com.jetpack.submission1.util
 
 import com.jetpack.submission1.data.MovieEntity
+import com.jetpack.submission1.data.source.remote.response.MovieByIdResponse
+import com.jetpack.submission1.data.source.remote.response.MovieImageResponse
+import com.jetpack.submission1.data.source.remote.response.MoviePostersItem
+import com.jetpack.submission1.data.source.remote.response.MoviesResultsItem
 import java.util.ArrayList
 
 object DataDummyMovie {
@@ -105,4 +109,139 @@ object DataDummyMovie {
         ))
         return movie
     }
+    fun getDummyRemoteMovie(): List<MoviesResultsItem> {
+        val movies = ArrayList<MoviesResultsItem>()
+
+        movies.add(
+            MoviesResultsItem(
+                "Raj is a rich, carefree, happy-go-lucky second generation NRI. Simran is the daughter of Chaudhary Baldev Singh, who in spite of being an NRI is very strict about adherence to Indian values. Simran has left for India to be married to her childhood fiancé. Raj leaves for India with a mission at his hands, to claim his lady love under the noses of her whole family. Thus begins a saga.",
+                "hi",
+                "दिलवाले दुल्हनिया ले जायेंगे",
+                false,
+                "Dilwale Dulhania Le Jayenge",
+                listOf(35, 18, 19749),
+                "/2CAL2433ZeIihfX1Hb2139CX0pW.jpg",
+                "/2CAL2433ZeIihfX1Hb2139CX0pW.jpg",
+                "1995-10-20",
+                23.774,
+                8.7,
+                19404,
+                false,
+                2885
+
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+        movies.add(
+            MoviesResultsItem(
+                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
+            ))
+
+        return movies
+    }
+    fun getDummyMovieById():MovieByIdResponse=
+        MovieByIdResponse(
+            "hi",
+            "tt0112870",
+            false,
+            "Dilwale Dulhania Le Jayenge",
+            "/gNBCvtYyGPbjPCT1k3MvJuNuXR6.jpg",
+            100000000,
+            23.774,
+            19404,
+            2887,
+            13200000,
+            "Raj is a rich, carefree, happy-go-lucky second generation NRI. Simran is the daughter of Chaudhary Baldev Singh, who in spite of being an NRI is very strict about adherence to Indian values. Simran has left for India to be married to her childhood fiancé. Raj leaves for India with a mission at his hands, to claim his lady love under the noses of her whole family. Thus begins a saga.",
+            "दिलवाले दुल्हनिया ले जायेंगे",
+            190,
+            "/2CAL2433ZeIihfX1Hb2139CX0pW.jpg",
+            "1995-10-20",
+            8.7,
+            "",
+            "",
+            false,
+            "",
+            "Released",
+        )
+
+    fun getDummyMovieImage(): MoviePostersItem =
+        MoviePostersItem(
+            0.6666666666666666,
+            "/2CAL2433ZeIihfX1Hb2139CX0pW.jpg",
+            5.774,
+            1020,
+            "hi",
+            0,
+            1020,
+        )
 }

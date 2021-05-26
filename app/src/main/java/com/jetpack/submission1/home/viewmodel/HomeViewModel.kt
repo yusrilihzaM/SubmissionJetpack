@@ -1,13 +1,13 @@
 package com.jetpack.submission1.home.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.jetpack.submission1.data.MovieEntity
-import com.jetpack.submission1.data.TvEntity
-import com.jetpack.submission1.util.DataDummyMovie
-import com.jetpack.submission1.util.DataDummyTv
+import com.jetpack.submission1.data.source.AppRepostory
+import com.jetpack.submission1.data.source.remote.response.MoviesResultsItem
+import com.jetpack.submission1.data.source.remote.response.TvResultsItem
 
-class HomeViewModel: ViewModel() {
-    fun getMovies(): List<MovieEntity> = DataDummyMovie.generateDummyMovie()
+class HomeViewModel(private val appRepostory: AppRepostory): ViewModel() {
+    fun getMovies(): LiveData<List<MoviesResultsItem>> = appRepostory.getMovies()
 
-    fun getTv(): List<TvEntity> = DataDummyTv.generateDummyTv()
+    fun getTv(): LiveData<List<TvResultsItem>> = appRepostory.getTv()
 }

@@ -3,6 +3,8 @@
     package="com.jetpack.submission1">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <permission  android:name="android.permission.INTERNET"></permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Submission1">
-        <activity android:name=".detail.DetailActivity"></activity>
+        <activity android:name=".detail.DetailActivity"/>
         <activity android:name=".tv.TvActivity" />
         <activity android:name=".movie.MovieActivity" />
         <activity android:name=".splashscreen.SplashActivity">

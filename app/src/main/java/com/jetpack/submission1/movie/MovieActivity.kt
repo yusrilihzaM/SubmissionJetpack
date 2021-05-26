@@ -5,15 +5,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.jetpack.submission1.R
 import com.jetpack.submission1.data.MovieEntity
+import com.jetpack.submission1.data.source.remote.response.MoviesResultsItem
 import com.jetpack.submission1.databinding.ActivityMovieBinding
 import com.jetpack.submission1.detail.DetailActivity
 import com.jetpack.submission1.home.viewmodel.HomeViewModel
 import com.jetpack.submission1.movie.adapter.MovieListAdapter
+import com.jetpack.submission1.viewmodel.ViewModelFactory
 
 @Suppress("DEPRECATION")
 class MovieActivity : AppCompatActivity() {
@@ -30,22 +33,27 @@ class MovieActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(upArrow)
         supportActionBar?.title = Html.fromHtml("<font color=\"black\">" + getString(R.string.movies) + "</font>")
         showMovies()
-        movieListAdapter.setOnItemClickCallback(object : MovieListAdapter.OnItemClickCallback{
-            override fun onItemClicked(data: MovieEntity) {
-                Toast.makeText(this@MovieActivity, data.titleMovie, Toast.LENGTH_SHORT).show()
-                val intent= Intent(this@MovieActivity, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.EXTRA_DATA_MOVIE,data)
-                startActivity(intent)
-            }
-        })
+
     }
     private fun showMovies(){
-        val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[HomeViewModel::class.java]
-        val movies=viewModel.getMovies()
-        binding.rvMovie.setHasFixedSize(true)
-        movieListAdapter= MovieListAdapter()
-        movieListAdapter.setMovies(movies)
-        binding.rvMovie.adapter=movieListAdapter
+        val factory = ViewModelFactory.getInstance(this)
+        val viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
+        viewModel.getMovies().observe(this,{movies->
+            showLoading(false)
+            binding.rvMovie.setHasFixedSize(true)
+            movieListAdapter= MovieListAdapter()
+            movieListAdapter.setMovies(movies)
+            binding.rvMovie.adapter=movieListAdapter
+            movieListAdapter.setOnItemClickCallback(object : MovieListAdapter.OnItemClickCallback{
+                override fun onItemClicked(data: MoviesResultsItem) {
+                    Toast.makeText(this@MovieActivity, data.originalTitle, Toast.LENGTH_SHORT).show()
+                    val intent= Intent(this@MovieActivity, DetailActivity::class.java)
+                intent.putExtra(DetailActivity.EXTRA_DATA_MOVIE,data.id)
+                startActivity(intent)
+                }
+            })
+        })
+
     }
 
     override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
@@ -59,6 +67,13 @@ class MovieActivity : AppCompatActivity() {
                 true
             }
             else -> true
+        }
+    }
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
         }
     }
 }
