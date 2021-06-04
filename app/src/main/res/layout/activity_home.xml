@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="@dimen/m_16"
-    tools:context=".home.HomeActivity">
+    tools:context="com.jetpack.submission1.ui.home.HomeActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout3"

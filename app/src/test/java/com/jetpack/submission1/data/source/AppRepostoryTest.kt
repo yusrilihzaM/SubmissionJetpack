@@ -20,13 +20,9 @@ class AppRepostoryTest {
     private val appRepository = FakeAppRepostory(remote)
 
     private val movieResponses = DataDummyMovie.getDummyRemoteMovie()
-    private val movieByIdResponses = DataDummyMovie.getDummyMovieById()
-    private val movieImageResponses = DataDummyMovie.getDummyMovieImage()
-    private val movieId = movieResponses[0].id
+
     private val tvResponses = DataDummyTv.getDummyRemoteTv()
-    private val tvId = tvResponses[0].id
-    private val tvByIdResponses = DataDummyTv.getDummyTvById()
-    private val tvImageResponses = DataDummyTv.getDummyTvImage()
+
     @Test
     fun getMovies() {
         com.nhaarman.mockitokotlin2.doAnswer { invocation ->
@@ -38,48 +34,6 @@ class AppRepostoryTest {
         com.nhaarman.mockitokotlin2.verify(remote).getMovies(com.nhaarman.mockitokotlin2.any())
         assertNotNull(movieEntities)
         assertEquals(movieResponses.size.toLong(), movieEntities.size.toLong())
-    }
-
-    @Test
-    fun getMovieById() {
-        com.nhaarman.mockitokotlin2.doAnswer { invocation ->
-            (invocation.arguments[1] as RemoteDataSource.LoadMovieByIdCallback)
-                .onMovieByIdRecevied(movieByIdResponses)
-            null
-        }.`when`(remote).getMovieById(
-            com.nhaarman.mockitokotlin2.eq(movieId),
-            com.nhaarman.mockitokotlin2.any()
-        )
-
-        val moviesByIdEntities = LiveDataTestUtil.getValue(appRepository.getMovieById(movieId))
-
-        com.nhaarman.mockitokotlin2.verify(remote)
-            .getMovieById(com.nhaarman.mockitokotlin2.eq(movieId), com.nhaarman.mockitokotlin2.any())
-
-        assertNotNull(moviesByIdEntities)
-        assertEquals(moviesByIdEntities.id, movieByIdResponses.id)
-        assertEquals(moviesByIdEntities.title, movieByIdResponses.title)
-        assertEquals(moviesByIdEntities.overview, movieByIdResponses.overview)
-        assertEquals(moviesByIdEntities.posterPath, movieByIdResponses.posterPath)
-    }
-
-    @Test
-    fun getImageMovies() {
-        com.nhaarman.mockitokotlin2.doAnswer { invocation ->
-            (invocation.arguments[1] as RemoteDataSource.LoadMovieImageCallback)
-                .onMovieImageRecevied(movieImageResponses)
-            null
-        }.`when`(remote).getImageMovie(
-            com.nhaarman.mockitokotlin2.eq(movieId),
-            com.nhaarman.mockitokotlin2.any()
-        )
-
-        val moviesImageEntities = LiveDataTestUtil.getValue(appRepository.getImageMovies(movieId))
-
-        com.nhaarman.mockitokotlin2.verify(remote)
-            .getImageMovie(com.nhaarman.mockitokotlin2.eq(movieId), com.nhaarman.mockitokotlin2.any())
-        assertNotNull(moviesImageEntities)
-        assertEquals(moviesImageEntities.filePath, movieImageResponses.filePath)
     }
 
     @Test
@@ -95,45 +49,7 @@ class AppRepostoryTest {
         assertEquals(tvResponses.size.toLong(), tvEntities.size.toLong())
     }
 
-    @Test
-    fun getTvById() {
-        com.nhaarman.mockitokotlin2.doAnswer { invocation ->
-            (invocation.arguments[1] as RemoteDataSource.LoadTvByIdCallback)
-                .onTvByIdRecevied(tvByIdResponses)
-            null
-        }.`when`(remote).getTvById(
-            com.nhaarman.mockitokotlin2.eq(tvId),
-            com.nhaarman.mockitokotlin2.any()
-        )
 
-        val tvByIdEntities = LiveDataTestUtil.getValue(appRepository.getTvById(tvId))
 
-        com.nhaarman.mockitokotlin2.verify(remote)
-            .getTvById(com.nhaarman.mockitokotlin2.eq(tvId), com.nhaarman.mockitokotlin2.any())
 
-        assertNotNull(tvByIdEntities)
-        assertEquals(tvByIdEntities.id, tvByIdResponses.id)
-        assertEquals(tvByIdEntities.name, tvByIdResponses.name)
-        assertEquals(tvByIdEntities.overview, tvByIdResponses.overview)
-        assertEquals(tvByIdEntities.posterPath, tvByIdResponses.posterPath)
-    }
-
-    @Test
-    fun getImageTv() {
-        com.nhaarman.mockitokotlin2.doAnswer { invocation ->
-            (invocation.arguments[1] as RemoteDataSource.LoadTvImageCallback)
-                .onMovieTvRecevied(tvImageResponses)
-            null
-        }.`when`(remote).getImageTv(
-            com.nhaarman.mockitokotlin2.eq(tvId),
-            com.nhaarman.mockitokotlin2.any()
-        )
-
-        val tvImageEntities = LiveDataTestUtil.getValue(appRepository.getImageTv(tvId))
-
-        com.nhaarman.mockitokotlin2.verify(remote)
-            .getImageTv(com.nhaarman.mockitokotlin2.eq(tvId), com.nhaarman.mockitokotlin2.any())
-        assertNotNull(tvImageEntities)
-        assertEquals(tvImageEntities.filePath, tvImageResponses.filePath)
-    }
 }

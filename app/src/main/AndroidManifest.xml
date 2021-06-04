@@ -3,7 +3,9 @@
     package="com.jetpack.submission1">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <permission  android:name="android.permission.INTERNET"></permission>
+
+    <permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -13,17 +15,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Submission1">
-        <activity android:name=".detail.DetailActivity"/>
-        <activity android:name=".tv.TvActivity" />
-        <activity android:name=".movie.MovieActivity" />
-        <activity android:name=".splashscreen.SplashActivity">
+        <activity android:name=".ui.favorite.FavoriteActivity"></activity>
+        <activity android:name=".ui.detail.DetailActivity" />
+        <activity android:name=".ui.tv.TvActivity" />
+        <activity android:name=".ui.movie.MovieActivity" />
+        <activity android:name=".ui.splashscreen.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".home.HomeActivity" />
+        <activity android:name=".ui.home.HomeActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

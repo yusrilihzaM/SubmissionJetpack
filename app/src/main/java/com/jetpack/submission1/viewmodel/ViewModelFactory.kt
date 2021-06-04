@@ -3,10 +3,10 @@ package com.jetpack.submission1.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.jetpack.submission1.data.source.AppRepostory
-import com.jetpack.submission1.detail.viewmodel.DetailViewModel
+import com.jetpack.submission1.data.AppRepostory
+import com.jetpack.submission1.ui.detail.viewmodel.DetailViewModel
 import com.jetpack.submission1.di.Injection
-import com.jetpack.submission1.home.viewmodel.HomeViewModel
+import com.jetpack.submission1.ui.home.viewmodel.HomeViewModel
 
 class ViewModelFactory private constructor(private val appRepostory: AppRepostory) : ViewModelProvider.NewInstanceFactory() {
     companion object {

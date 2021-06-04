@@ -3,6 +3,8 @@ package com.jetpack.submission1.data.source.remote
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.jetpack.submission1.BuildConfig
 import com.jetpack.submission1.api.ApiConfig
 import com.jetpack.submission1.api.ApiService
@@ -30,79 +32,18 @@ class RemoteDataSource(apiService: ApiService) {
             }
     }
 
-
     interface LoadMoviesCallback{
         fun onMoviesRecevied(movieResponse: List<MoviesResultsItem>)
     }
 
-    interface LoadMovieByIdCallback{
-        fun onMovieByIdRecevied(movieByIdResponse: MovieByIdResponse)
-    }
-    interface LoadMovieImageCallback{
-        fun onMovieImageRecevied(movieImageResponse: MoviePostersItem)
-    }
-    interface LoadTvImageCallback{
-        fun onMovieTvRecevied(tvImageResponse: PostersItem)
-    }
     interface LoadTvCallback{
         fun onTvRecevied(tvResponse: List<TvResultsItem>)
     }
 
-    interface LoadTvByIdCallback{
-        fun onTvByIdRecevied(tvByIdResponse: TvByIdResponse)
-    }
-    fun getImageMovie(movieId: Int,loadMovieImageCallback: LoadMovieImageCallback){
+
+    fun getMovies(): LiveData<ApiResponse<List<MoviesResultsItem>>> {
         EspressoIdlingResource.increment()
-        handler.postDelayed({
-            apiConfig.getApiService().getImageMovie(movieId, API_KEY).enqueue(object :Callback<MovieImageResponse>{
-                override fun onResponse(
-                    call: Call<MovieImageResponse>,
-                    response: Response<MovieImageResponse>
-                ) {
-                    if (response.isSuccessful)
-                    {
-                        response.body()?.posters?.get(0).apply { this?.let { loadMovieImageCallback.onMovieImageRecevied(it) } }
-                        Log.e("getMovies", response.body().toString())
-                    } else{
-                        Log.e("getMovies", "responseFail: ${response.message()}")
-                    }
-                    EspressoIdlingResource.decrement()
-                }
-
-                override fun onFailure(call: Call<MovieImageResponse>, t: Throwable) {
-                    Log.e("getMovies", "onFailure: ${t.message.toString()}")
-                }
-            })
-
-        },SERVICE_LATENCY_IN_MILLIS)
-    }
-    fun getImageTv(tvId: Int,loadTvImageCallback: LoadTvImageCallback){
-        EspressoIdlingResource.increment()
-        handler.postDelayed({
-            apiConfig.getApiService().getImageTv(tvId, API_KEY).enqueue(object :Callback<TvImageResponse>{
-                override fun onResponse(
-                    call: Call<TvImageResponse>,
-                    response: Response<TvImageResponse>
-                ) {
-                    if (response.isSuccessful)
-                    {
-                        response.body()?.posters?.get(0).apply { this?.let { loadTvImageCallback.onMovieTvRecevied(it) } }
-                        Log.e("getImageTv", response.body().toString())
-                    } else{
-                        Log.e("getImageTv", "responseFail: ${response.message()}")
-                    }
-                    EspressoIdlingResource.decrement()
-                }
-
-                override fun onFailure(call: Call<TvImageResponse>, t: Throwable) {
-                    Log.e("getMovies", "onFailure: ${t.message.toString()}")
-                }
-            })
-
-        },SERVICE_LATENCY_IN_MILLIS)
-    }
-    fun getMovies(loadMovieCallback:LoadMoviesCallback) {
-        EspressoIdlingResource.increment()
+        val dataItem = MutableLiveData<ApiResponse<List<MoviesResultsItem>>>()
         handler.postDelayed({
             apiConfig.getApiService().getMovies(API_KEY).enqueue(object : Callback<MoviesResponse>{
             override fun onResponse(
@@ -111,7 +52,9 @@ class RemoteDataSource(apiService: ApiService) {
             ) {
                 if (response.isSuccessful)
                 {
-                    response.body()?.results.apply { this?.let { loadMovieCallback.onMoviesRecevied(it) } }
+                    val data= response.body()?.results
+                    dataItem.value = data?.let { ApiResponse.success(it) }!!
+//                    response.body()?.results.apply { this?.let { loadMovieCallback.onMoviesRecevied(it) } }
                     Log.e("getMovies", response.body().toString())
                 } else{
                     Log.e("getMovies", "responseFail: ${response.message()}")
@@ -125,43 +68,21 @@ class RemoteDataSource(apiService: ApiService) {
         })
 
         },SERVICE_LATENCY_IN_MILLIS)
+        return dataItem
     }
 
-    fun getMovieById(movieId: Int,loadMovieByIdCallback:LoadMovieByIdCallback ) {
+
+    fun getTv(): LiveData<ApiResponse<List<TvResultsItem>>> {
         EspressoIdlingResource.increment()
-        handler.postDelayed({
-            apiConfig.getApiService().getMovieById(movieId, API_KEY).enqueue(object :Callback<MovieByIdResponse>{
-                override fun onResponse(
-                    call: Call<MovieByIdResponse>,
-                    response: Response<MovieByIdResponse>
-                ) {
-                    if (response.isSuccessful)
-                    {
-                        response.body()?.apply { this?.let { loadMovieByIdCallback.onMovieByIdRecevied(it) } }
-                        Log.e("getMovieById", response.body().toString())
-                    } else{
-                        Log.e("getMovieById", "responseFail: ${response.message()}")
-                    }
-                    EspressoIdlingResource.decrement()
-                }
-
-                override fun onFailure(call: Call<MovieByIdResponse>, t: Throwable) {
-                    Log.e("getMovieById", "onFailure: ${t.message.toString()}")
-                }
-            })
-
-        },SERVICE_LATENCY_IN_MILLIS)
-
-    }
-
-    fun getTv(loadTvCallback: LoadTvCallback) {
-        EspressoIdlingResource.increment()
+        val dataItem = MutableLiveData<ApiResponse<List<TvResultsItem>>>()
         handler.postDelayed({
             apiConfig.getApiService().getTvs(API_KEY).enqueue(object :Callback<TvResponse>{
                 override fun onResponse(call: Call<TvResponse>, response: Response<TvResponse>) {
                     if (response.isSuccessful)
                     {
-                        response.body()?.results.apply { this?.let { loadTvCallback.onTvRecevied(it) } }
+                        val data= response.body()?.results
+                        dataItem.value = data?.let { ApiResponse.success(it) }!!
+//                        response.body()?.results.apply { this?.let { loadTvCallback.onTvRecevied(it) } }
                     } else{
                         Log.e("getTv", "responseFail: ${response.message()}")
                     }
@@ -174,35 +95,10 @@ class RemoteDataSource(apiService: ApiService) {
             })
 
         },SERVICE_LATENCY_IN_MILLIS)
-
+        return dataItem
     }
 
-    fun getTvById(tvId: Int,loadTvByIdCallback: LoadTvByIdCallback ) {
-        EspressoIdlingResource.increment()
-        handler.postDelayed({
-            apiConfig.getApiService().getTvById(tvId, API_KEY).enqueue(object :Callback<TvByIdResponse>{
-                override fun onResponse(
-                    call: Call<TvByIdResponse>,
-                    response: Response<TvByIdResponse>
-                ) {
-                    if (response.isSuccessful)
-                    {
-                        response.body()?.apply { this?.let { loadTvByIdCallback.onTvByIdRecevied(it) } }
-                        Log.e("getTvById", response.body().toString())
-                    } else{
-                        Log.e("getTvById", "responseFail: ${response.message()}")
-                    }
-                    EspressoIdlingResource.decrement()
-                }
 
-                override fun onFailure(call: Call<TvByIdResponse>, t: Throwable) {
-                    Log.e("getTvById", "onFailure: ${t.message.toString()}")
-                }
-            })
-
-        },SERVICE_LATENCY_IN_MILLIS)
-
-    }
 }
 
 

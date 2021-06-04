@@ -7,7 +7,7 @@
     android:background="@color/purple_700"
     android:orientation="vertical"
     android:padding="@dimen/m_16"
-    tools:context=".movie.MovieActivity">
+    tools:context=".ui.movie.MovieActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_movie"
