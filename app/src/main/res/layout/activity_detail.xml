@@ -11,28 +11,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <com.sackcentury.shinebuttonlib.ShineButton
+            android:id="@+id/love"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/m_8"
+
+            android:src="@android:color/darker_gray"
+            app:allow_random_color="false"
+            app:btn_color="@android:color/darker_gray"
+            app:btn_fill_color="@color/red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.938"
+            app:layout_constraintStart_toEndOf="@+id/tv_ov"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2"
+            app:siShape="@raw/heart" />
 
         <TextView
             android:id="@+id/overview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dummy_over"
             android:layout_marginTop="@dimen/m_16"
+            android:fontFamily="@font/poppins"
+            android:text="@string/dummy_over"
             android:textColor="@color/black"
             android:textSize="@dimen/f_14"
-            android:fontFamily="@font/poppins"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_ov" />
+
         <TextView
             android:id="@+id/tv_ov"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/overview"
             android:layout_marginTop="@dimen/m_16"
-            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/overview"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
@@ -49,8 +65,8 @@
                 android:id="@+id/img_poster"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:contentDescription="@string/poster" />
+                android:contentDescription="@string/poster"
+                android:scaleType="centerCrop" />
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

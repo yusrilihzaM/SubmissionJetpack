@@ -48,7 +48,7 @@ class MovieActivity : AppCompatActivity() {
                 override fun onItemClicked(data: MovieEntity) {
                     Toast.makeText(this@MovieActivity, data.originalTitle, Toast.LENGTH_SHORT).show()
                     val intent= Intent(this@MovieActivity, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.EXTRA_DATA_MOVIE,data.id)
+                intent.putExtra(DetailActivity.EXTRA_DATA_MOVIE,data)
                 startActivity(intent)
                 }
             })

@@ -36,4 +36,9 @@ class LocalDataSource private constructor(private val appDao: AppDao)  {
     fun insertMovie(movie: List<MovieEntity>) = appDao.insertMovies(movie)
 
     fun insertTv(tv: List<TvEntity>) = appDao.insertTv(tv)
+
+    fun getMovieFavId(id: Int): LiveData<List<MovieEntity>> =
+        appDao.getMovieFavId(id)
+    fun getFavFavId(id: Int): LiveData<List<TvEntity>> =
+        appDao.getTvFavId(id)
 }

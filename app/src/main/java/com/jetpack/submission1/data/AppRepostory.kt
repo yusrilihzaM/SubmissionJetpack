@@ -68,6 +68,10 @@ class AppRepostory private constructor(
         return localDataSource.getFavMovies()
     }
 
+    override fun getMovieFavId(id: Int): LiveData<List<MovieEntity>>{
+        return localDataSource.getMovieFavId(id)
+    }
+
     override fun setMovieFav(movieEntity: MovieEntity, state: Boolean) {
         appExecutors.diskIO().execute { localDataSource.setFavMovie(movieEntity, state) }
 
@@ -108,6 +112,10 @@ class AppRepostory private constructor(
 
     override fun getFavTv(): LiveData<List<TvEntity>> {
         return localDataSource.getFavTv()
+    }
+
+    override fun getTvFavId(id: Int): LiveData<List<TvEntity>> {
+        return localDataSource.getFavFavId(id)
     }
 
     override fun setTvFav(tvEntity: TvEntity, state: Boolean) {

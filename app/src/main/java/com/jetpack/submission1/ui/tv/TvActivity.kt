@@ -48,7 +48,7 @@ class TvActivity : AppCompatActivity() {
                 override fun onItemClicked(data: TvEntity) {
                     Toast.makeText(this@TvActivity, data.originalName, Toast.LENGTH_SHORT).show()
                     val intent= Intent(this@TvActivity, DetailActivity::class.java)
-                    intent.putExtra(DetailActivity.EXTRA_DATA_TV,data.id)
+                    intent.putExtra(DetailActivity.EXTRA_DATA_TV,data)
                     startActivity(intent)
                 }
             })

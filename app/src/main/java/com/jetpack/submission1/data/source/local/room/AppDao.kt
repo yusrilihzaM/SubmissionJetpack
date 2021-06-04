@@ -14,6 +14,10 @@ interface AppDao {
     @Query("SELECT * FROM MovieEntity WHERE favorite=1")
     fun getFavMovies(): LiveData<List<MovieEntity>>
 
+    @Transaction
+    @Query("SELECT * FROM MovieEntity WHERE idMovie=:idMovie AND favorite=1")
+    fun getMovieFavId(idMovie: Int): LiveData<List<MovieEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovies(movies: List<MovieEntity>)
 
@@ -25,6 +29,10 @@ interface AppDao {
 
     @Query("SELECT * FROM TvEntity WHERE favorite=1")
     fun getFavTv(): LiveData<List<TvEntity>>
+
+    @Transaction
+    @Query("SELECT * FROM TvEntity WHERE tvId=:tvId AND favorite=1")
+    fun getTvFavId(tvId: Int): LiveData<List<TvEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTv(tv: List<TvEntity>)

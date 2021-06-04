@@ -1,11 +1,14 @@
 package com.jetpack.submission1.ui.detail
 
 import android.annotation.SuppressLint
+import android.graphics.Movie
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +23,9 @@ import com.jetpack.submission1.data.source.remote.response.*
 import com.jetpack.submission1.databinding.ActivityDetailBinding
 import com.jetpack.submission1.ui.detail.viewmodel.DetailViewModel
 import com.jetpack.submission1.viewmodel.ViewModelFactory
+import com.jetpack.submission1.vo.Status
+import com.jetpack.submission1.vo.Status.*
+import com.sackcentury.shinebuttonlib.ShineButton
 
 @Suppress("DEPRECATION")
 class DetailActivity : AppCompatActivity() {
@@ -30,7 +36,13 @@ class DetailActivity : AppCompatActivity() {
     }
     private lateinit var binding: ActivityDetailBinding
     private lateinit var circularProgressDrawable : CircularProgressDrawable
-    private var menu: Menu? = null
+
+    private lateinit var viewModel: DetailViewModel
+    private var idMovie:Int=0
+    private var idTv:Int=0
+    private lateinit var dataMovie:MovieEntity
+    private lateinit var dataTv:TvEntity
+    private lateinit var loveBtn: ShineButton
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,14 +58,30 @@ class DetailActivity : AppCompatActivity() {
         circularProgressDrawable.centerRadius = 30f
         circularProgressDrawable.start()
 
+        loveBtn=binding.love
+        loveBtn.init(this)
+
+        val factory = ViewModelFactory.getInstance(this)
+        viewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
+
 
         if(intent.getParcelableExtra<MovieEntity>(EXTRA_DATA_MOVIE)!=null){
-            val dataMovie=intent.getParcelableExtra<MovieEntity>(EXTRA_DATA_MOVIE) as MovieEntity
+            dataMovie=intent.getParcelableExtra<MovieEntity>(EXTRA_DATA_MOVIE) as MovieEntity
             setContentMovie(dataMovie)
+            idMovie=dataMovie.idMovie
+            loveBtn.isChecked = dataMovie.favorite
+            loveBtn.setOnClickListener {
+                viewModel.setFavoriteMovie(dataMovie)
+            }
         }
         else {
-            val dataTv=intent.getParcelableExtra<TvEntity>(EXTRA_DATA_TV) as TvEntity
+            dataTv=intent.getParcelableExtra<TvEntity>(EXTRA_DATA_TV) as TvEntity
             setContentTv(dataTv)
+            idTv=dataTv.tvId
+            loveBtn.isChecked = dataTv.favorite
+            loveBtn.setOnClickListener {
+                viewModel.setFavoriteTv(dataTv)
+            }
         }
     }
 
@@ -84,17 +112,11 @@ class DetailActivity : AppCompatActivity() {
         }
 
     }
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_detail, menu)
-        this.menu = menu
-        return true
-    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_fav->{
-                true
-            }
+
             16908332->{
                 this.finish()
                 true
@@ -103,13 +125,5 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setFavoriteState(state: Boolean) {
-        if (menu == null) return
-        val menuItem = menu?.findItem(R.id.action_fav)
-        if (state) {
-            menuItem?.icon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24)
-        } else {
-            menuItem?.icon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_border_24)
-        }
-    }
+
 }

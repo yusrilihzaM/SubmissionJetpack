@@ -9,9 +9,11 @@ import com.jetpack.submission1.vo.Resource
 interface AppDataSource {
     fun getMovies(): LiveData<Resource<List<MovieEntity>>>
     fun getFavMovie(): LiveData<List<MovieEntity>>
+    fun getMovieFavId(id: Int): LiveData<List<MovieEntity>>
     fun setMovieFav(movieEntity: MovieEntity, state: Boolean)
 
     fun getTv(): LiveData<Resource<List<TvEntity>>>
     fun getFavTv(): LiveData<List<TvEntity>>
+    fun getTvFavId(id: Int): LiveData<List<TvEntity>>
     fun setTvFav(tvEntity: TvEntity, state: Boolean)
 }

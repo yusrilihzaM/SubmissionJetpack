@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.jetpack.submission1.data.AppRepostory
 import com.jetpack.submission1.ui.detail.viewmodel.DetailViewModel
 import com.jetpack.submission1.di.Injection
+import com.jetpack.submission1.ui.favorite.viewmodel.FavoriteViewModel
 import com.jetpack.submission1.ui.home.viewmodel.HomeViewModel
 
 class ViewModelFactory private constructor(private val appRepostory: AppRepostory) : ViewModelProvider.NewInstanceFactory() {
@@ -30,7 +31,9 @@ class ViewModelFactory private constructor(private val appRepostory: AppRepostor
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(appRepostory) as T
             }
-
+            modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
+                FavoriteViewModel(appRepostory) as T
+            }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }
 

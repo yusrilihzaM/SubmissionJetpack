@@ -68,22 +68,6 @@ class HomeActivity : AppCompatActivity() {
                 }
             })
         })
-//        viewModel.getMovies().observe(this,{movies->
-//            showLoading(false)
-//            binding.rvMovie.setHasFixedSize(true)
-//            movieCardAdapter= MovieCardAdapter()
-//            movieCardAdapter.setMovies(movies)
-//            binding.rvMovie.adapter=movieCardAdapter
-//            movieCardAdapter.setOnItemClickCallback(object :MovieCardAdapter.OnItemClickCallback{
-//                override fun onItemClicked(data: MoviesResultsItem) {
-//                    Toast.makeText(this@HomeActivity, data.posterPath, Toast.LENGTH_SHORT).show()
-//                    val intent=Intent(this@HomeActivity, DetailActivity::class.java)
-//                    intent.putExtra(DetailActivity.EXTRA_DATA_MOVIE,data)
-//                    startActivity(intent)
-//                }
-//            })
-//        })
-
     }
     private fun showTvShow(){
         val factory = ViewModelFactory.getInstance(this)
