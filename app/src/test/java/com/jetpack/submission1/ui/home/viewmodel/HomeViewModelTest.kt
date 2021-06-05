@@ -1,13 +1,17 @@
 package com.jetpack.submission1.ui.home.viewmodel
 
+import android.graphics.Movie
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.jetpack.submission1.data.AppRepostory
+import com.jetpack.submission1.data.source.local.entity.MovieEntity
+import com.jetpack.submission1.data.source.local.entity.TvEntity
 import com.jetpack.submission1.data.source.remote.response.MoviesResultsItem
 import com.jetpack.submission1.data.source.remote.response.TvResultsItem
 import com.jetpack.submission1.util.DataDummyMovie
 import com.jetpack.submission1.util.DataDummyTv
+import com.jetpack.submission1.vo.Resource
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -27,10 +31,10 @@ class HomeViewModelTest {
     private lateinit var appRepostory: AppRepostory
 
     @Mock
-    private lateinit var observerMovie: Observer<List<MoviesResultsItem>>
+    private lateinit var observerMovie: Observer<Resource<List<MovieEntity>>>
 
     @Mock
-    private lateinit var observerTv: Observer<List<TvResultsItem>>
+    private lateinit var observerTv: Observer<Resource<List<TvEntity>>>
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -42,11 +46,11 @@ class HomeViewModelTest {
 
     @Test
     fun getMovies() {
-        val movies= MutableLiveData<List<MoviesResultsItem>>()
-        val dummyMovies = DataDummyMovie.getDummyRemoteMovie()
+        val movies= MutableLiveData<Resource<List<MovieEntity>>>()
+        val dummyMovies = Resource.success(DataDummyMovie.getDummyRemoteMovie())
         movies.value=dummyMovies
         Mockito.`when`(appRepostory.getMovies()).thenReturn( movies)
-        val moviesEntities=viewModel.getMovies().value
+        val moviesEntities=viewModel.getMovies().value?.data
         verify(appRepostory).getMovies()
         assertNotNull(moviesEntities)
         assertEquals(20,moviesEntities?.size)
@@ -56,11 +60,11 @@ class HomeViewModelTest {
 
     @Test
     fun getTv() {
-        val tv= MutableLiveData<List<TvResultsItem>>()
-        val dummyTv = DataDummyTv.getDummyRemoteTv()
+        val tv= MutableLiveData<Resource<List<TvEntity>>>()
+        val dummyTv = Resource.success(DataDummyTv.getDummyRemoteTv())
         tv.value=dummyTv
         Mockito.`when`(appRepostory.getTv()).thenReturn( tv)
-        val tvEntities=viewModel.getTv().value
+        val tvEntities=viewModel.getTv().value?.data
         verify(appRepostory).getTv()
 
         assertNotNull(tvEntities)

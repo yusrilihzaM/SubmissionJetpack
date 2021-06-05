@@ -1,7 +1,12 @@
 package com.jetpack.submission1.data.source
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import com.jetpack.submission1.data.source.local.LocalDataSource
+import com.jetpack.submission1.data.source.local.entity.MovieEntity
+import com.jetpack.submission1.data.source.local.entity.TvEntity
 import com.jetpack.submission1.data.source.remote.RemoteDataSource
+import com.jetpack.submission1.util.AppExecutors
 import com.jetpack.submission1.util.DataDummyMovie
 import com.jetpack.submission1.util.DataDummyTv
 import com.jetpack.submission1.util.LiveDataTestUtil
@@ -10,14 +15,17 @@ import org.junit.Test
 import org.junit.Assert.*
 import org.junit.Rule
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
 
 class AppRepostoryTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private val remote = Mockito.mock(RemoteDataSource::class.java)
-
-    private val appRepository = FakeAppRepostory(remote)
+    private val local = Mockito.mock(LocalDataSource::class.java)
+    private val appExecutors = Mockito.mock(AppExecutors::class.java)
+    private val appRepository = FakeAppRepostory(remote,local, appExecutors)
 
     private val movieResponses = DataDummyMovie.getDummyRemoteMovie()
 
@@ -25,28 +33,35 @@ class AppRepostoryTest {
 
     @Test
     fun getMovies() {
-        com.nhaarman.mockitokotlin2.doAnswer { invocation ->
-            (invocation.arguments[0] as RemoteDataSource.LoadMoviesCallback)
-                .onMoviesRecevied(movieResponses)
-            null
-        }.`when`(remote).getMovies(com.nhaarman.mockitokotlin2.any())
+        val dummyMovies = MutableLiveData<List<MovieEntity>>()
+        dummyMovies.value = DataDummyMovie.getDummyRemoteMovie()
+        `when`(local.getMovies()).thenReturn(dummyMovies)
+//        com.nhaarman.mockitokotlin2.doAnswer { invocation ->
+//            (invocation.arguments[0] as RemoteDataSource.LoadMoviesCallback)
+//                .onMoviesRecevied(movieResponses)
+//            null
+//        }.`when`(remote).getMovies(com.nhaarman.mockitokotlin2.any())
         val movieEntities = LiveDataTestUtil.getValue(appRepository.getMovies())
-        com.nhaarman.mockitokotlin2.verify(remote).getMovies(com.nhaarman.mockitokotlin2.any())
+        verify(local).getMovies()
+//        com.nhaarman.mockitokotlin2.verify(remote).getMovies(com.nhaarman.mockitokotlin2.any())
         assertNotNull(movieEntities)
-        assertEquals(movieResponses.size.toLong(), movieEntities.size.toLong())
+        assertEquals(movieResponses.size.toLong(), movieEntities.data?.size?.toLong())
     }
 
     @Test
     fun getTv() {
-        com.nhaarman.mockitokotlin2.doAnswer { invocation ->
-            (invocation.arguments[0] as RemoteDataSource.LoadTvCallback)
-                .onTvRecevied(tvResponses)
-            null
-        }.`when`(remote).getTv(com.nhaarman.mockitokotlin2.any())
+        val dummyTv = MutableLiveData<List<TvEntity>>()
+        dummyTv.value = DataDummyTv.getDummyRemoteTv()
+        `when`(local.getTv()).thenReturn(dummyTv)
+//        com.nhaarman.mockitokotlin2.doAnswer { invocation ->
+//            (invocation.arguments[0] as RemoteDataSource.LoadTvCallback)
+//                .onTvRecevied(tvResponses)
+//            null
+//        }.`when`(remote).getTv(com.nhaarman.mockitokotlin2.any())
         val tvEntities = LiveDataTestUtil.getValue(appRepository.getTv())
-        com.nhaarman.mockitokotlin2.verify(remote).getTv(com.nhaarman.mockitokotlin2.any())
+//        com.nhaarman.mockitokotlin2.verify(remote).getTv(com.nhaarman.mockitokotlin2.any())
         assertNotNull(tvEntities)
-        assertEquals(tvResponses.size.toLong(), tvEntities.size.toLong())
+        assertEquals(tvResponses.size.toLong(), tvEntities.data?.size?.toLong())
     }
 
 

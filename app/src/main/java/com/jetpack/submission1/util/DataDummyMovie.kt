@@ -1,112 +1,91 @@
 package com.jetpack.submission1.util
 
 
-import com.jetpack.submission1.data.source.remote.response.MoviesResultsItem
+import com.jetpack.submission1.data.source.local.entity.MovieEntity
 import java.util.ArrayList
 
 object DataDummyMovie {
 
-    fun getDummyRemoteMovie(): List<MoviesResultsItem> {
-        val movies = ArrayList<MoviesResultsItem>()
+    fun getDummyRemoteMovie(): List<MovieEntity> {
+        val movies = ArrayList<MovieEntity>()
 
         movies.add(
-            MoviesResultsItem(
-                "Raj is a rich, carefree, happy-go-lucky second generation NRI. Simran is the daughter of Chaudhary Baldev Singh, who in spite of being an NRI is very strict about adherence to Indian values. Simran has left for India to be married to her childhood fiancé. Raj leaves for India with a mission at his hands, to claim his lady love under the noses of her whole family. Thus begins a saga.",
-                "hi",
-                "दिलवाले दुल्हनिया ले जायेंगे",
-                false,
-                "Dilwale Dulhania Le Jayenge",
-                listOf(35, 18, 19749),
-                "/2CAL2433ZeIihfX1Hb2139CX0pW.jpg",
-                "/2CAL2433ZeIihfX1Hb2139CX0pW.jpg",
-                "1995-10-20",
-                23.774,
-                8.7,
-                19404,
-                false,
-                2885
-
+            MovieEntity(
+                122,
+                "Aragorn is revealed as the heir to the ancient kings as he, Gandalf and the other members of the broken fellowship struggle to save Gondor from Sauron's forces. Meanwhile, Frodo and Sam take the ring closer to the heart of Mordor, the dark lord's realm.",
+                "The Lord of the Rings: The Return of the King",
+                "The Lord of the Rings: The Return of the King",
+                "rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg",
+                122,
+                false
             ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-        movies.add(
-            MoviesResultsItem(
-                "", "", "", false, "", listOf(), "", "", "", 0.0, 0.0, 0, false, 0
-            ))
-
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
+        movies.add(MovieEntity(
+            0, "", "", "", "", 0, false
+        ))
         return movies
     }
-
-
-
+    fun getDummyMovieById():MovieEntity=
+        MovieEntity(
+            122,
+            "Aragorn is revealed as the heir to the ancient kings as he, Gandalf and the other members of the broken fellowship struggle to save Gondor from Sauron's forces. Meanwhile, Frodo and Sam take the ring closer to the heart of Mordor, the dark lord's realm.",
+            "The Lord of the Rings: The Return of the King",
+            "The Lord of the Rings: The Return of the King",
+            "rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg",
+            122,
+            false
+        )
 }

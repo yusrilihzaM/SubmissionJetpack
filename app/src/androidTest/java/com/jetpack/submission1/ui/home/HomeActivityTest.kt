@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -80,5 +81,35 @@ class HomeActivityTest{
         onView(withId(R.id.img_poster)).check(matches(isDisplayed()))
         onView(withId(R.id.overview)).check(matches(isDisplayed()))
         onView(withId(R.id.overview)).check(matches(withText(dummyTv[0].overview)))
+    }
+
+    @Test
+    fun loadFavoriteMovie(){
+        onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.love)).perform(click())
+        onView(isRoot()).perform(ViewActions.pressBack())
+        onView(withId(R.id.favorite)).perform(click())
+        onView(withText(R.string.movies)).perform(click())
+        onView(withId(R.id.rv_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.img_poster)).check(matches(isDisplayed()))
+        onView(withId(R.id.overview)).check(matches(isDisplayed()))
+        onView(withId(R.id.love)).perform(click())
+        onView(isRoot()).perform(ViewActions.pressBack())
+    }
+
+    @Test
+    fun loadFavoriteTv(){
+        onView(withId(R.id.rv_tv)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.love)).perform(click())
+        onView(isRoot()).perform(ViewActions.pressBack())
+        onView(withId(R.id.favorite)).perform(click())
+        onView(withText(R.string.tv)).perform(click())
+        onView(withId(R.id.rv_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_tv)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.img_poster)).check(matches(isDisplayed()))
+        onView(withId(R.id.overview)).check(matches(isDisplayed()))
+        onView(withId(R.id.love)).perform(click())
+        onView(isRoot()).perform(ViewActions.pressBack())
     }
 }
