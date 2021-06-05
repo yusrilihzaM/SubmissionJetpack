@@ -2,6 +2,8 @@ package com.jetpack.submission1.ui.movie.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
@@ -13,9 +15,17 @@ import com.jetpack.submission1.data.source.remote.response.MoviesResultsItem
 import com.jetpack.submission1.databinding.ItemListBinding
 import java.util.ArrayList
 
-class MovieListAdapter: RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>()  {
+class MovieListAdapter: PagedListAdapter<MovieEntity, MovieListAdapter.MovieViewHolder>(DIFF_CALLBACK)  {
     companion object {
         private const val URL_IMAGE= BuildConfig.URL_IMAGE
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {
+            override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
+                return oldItem.idMovie == newItem.idMovie
+            }
+            override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
     private var onItemClickCallback: MovieListAdapter.OnItemClickCallback? = null
     fun setOnItemClickCallback(onItemClickCallback: MovieListAdapter.OnItemClickCallback) {
@@ -54,9 +64,11 @@ class MovieListAdapter: RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>()
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(listMovies[position])
+        val movieEntity = getItem(position)
+        if (movieEntity != null) {
+            holder.bind(movieEntity)
+        }
     }
-    override fun getItemCount(): Int = listMovies.size
     interface OnItemClickCallback {
         fun onItemClicked(data: MovieEntity)
     }

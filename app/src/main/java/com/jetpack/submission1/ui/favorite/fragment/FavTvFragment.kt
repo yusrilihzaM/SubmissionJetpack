@@ -50,7 +50,7 @@ class FavTvFragment : Fragment() {
                     binding?.icNodata?.visibility = View.GONE
                     binding?.rvTv?.setHasFixedSize(true)
                     tvListAdapter= TvListAdapter()
-                    tvListAdapter.setTv(data)
+                    tvListAdapter.submitList(data)
                     binding?.rvTv?.adapter=tvListAdapter
                     tvListAdapter.setOnItemClickCallback(object : TvListAdapter.OnItemClickCallback{
                         override fun onItemClicked(data: TvEntity) {

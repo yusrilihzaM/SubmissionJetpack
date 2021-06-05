@@ -2,6 +2,8 @@ package com.jetpack.submission1.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
@@ -13,8 +15,20 @@ import com.jetpack.submission1.data.source.remote.response.MoviesResultsItem
 import com.jetpack.submission1.databinding.ItemCardBinding
 import java.util.ArrayList
 
-class MovieCardAdapter: RecyclerView.Adapter<MovieCardAdapter.MovieViewHolder>() {
+class MovieCardAdapter: PagedListAdapter<MovieEntity, MovieCardAdapter.MovieViewHolder>(DIFF_CALLBACK) {
     private var onItemClickCallback: OnItemClickCallback? = null
+
+    companion object {
+        private const val URL_IMAGE= BuildConfig.URL_IMAGE
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {
+            override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
+                return oldItem.idMovie == newItem.idMovie
+            }
+            override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
@@ -51,14 +65,14 @@ class MovieCardAdapter: RecyclerView.Adapter<MovieCardAdapter.MovieViewHolder>()
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(listMovies[position])
+        val movieEntity = getItem(position)
+        if (movieEntity != null) {
+            holder.bind(movieEntity)
+        }
     }
-    override fun getItemCount(): Int = listMovies.size
+
     interface OnItemClickCallback {
         fun onItemClicked(data: MovieEntity)
     }
 
-    companion object {
-        private const val URL_IMAGE= BuildConfig.URL_IMAGE
-    }
 }

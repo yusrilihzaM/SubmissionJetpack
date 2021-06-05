@@ -49,7 +49,7 @@ class FavMovieFragment : Fragment() {
                     binding?.icNodata?.visibility = View.GONE
                     binding?.rvMovie?.setHasFixedSize(true)
                     movieListAdapter= MovieListAdapter()
-                    movieListAdapter.setMovies(data)
+                    movieListAdapter.submitList(data)
                     binding?.rvMovie?.adapter=movieListAdapter
                     movieListAdapter.setOnItemClickCallback(object : MovieListAdapter.OnItemClickCallback{
                         override fun onItemClicked(data: MovieEntity) {

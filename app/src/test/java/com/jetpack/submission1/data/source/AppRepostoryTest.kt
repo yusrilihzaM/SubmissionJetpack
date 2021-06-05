@@ -2,6 +2,7 @@ package com.jetpack.submission1.data.source
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.DataSource
 import com.jetpack.submission1.data.source.local.LocalDataSource
 import com.jetpack.submission1.data.source.local.entity.MovieEntity
 import com.jetpack.submission1.data.source.local.entity.TvEntity
@@ -10,13 +11,15 @@ import com.jetpack.submission1.util.AppExecutors
 import com.jetpack.submission1.util.DataDummyMovie
 import com.jetpack.submission1.util.DataDummyTv
 import com.jetpack.submission1.util.LiveDataTestUtil
+import com.jetpack.submission1.utils.PagedListUtil
+import com.jetpack.submission1.vo.Resource
+
 import org.junit.Test
 
 import org.junit.Assert.*
 import org.junit.Rule
 import org.mockito.Mockito
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 
 class AppRepostoryTest {
     @get:Rule
@@ -33,38 +36,37 @@ class AppRepostoryTest {
 
     @Test
     fun getMovies() {
-        val dummyMovies = MutableLiveData<List<MovieEntity>>()
-        dummyMovies.value = DataDummyMovie.getDummyRemoteMovie()
-        `when`(local.getMovies()).thenReturn(dummyMovies)
-//        com.nhaarman.mockitokotlin2.doAnswer { invocation ->
-//            (invocation.arguments[0] as RemoteDataSource.LoadMoviesCallback)
-//                .onMoviesRecevied(movieResponses)
-//            null
-//        }.`when`(remote).getMovies(com.nhaarman.mockitokotlin2.any())
-        val movieEntities = LiveDataTestUtil.getValue(appRepository.getMovies())
-        verify(local).getMovies()
-//        com.nhaarman.mockitokotlin2.verify(remote).getMovies(com.nhaarman.mockitokotlin2.any())
+        val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, MovieEntity>
+        `when`(local.getMovies()).thenReturn(dataSourceFactory)
+        val movieEntities = Resource.success(PagedListUtil.mockPagedList(DataDummyMovie.getDummyRemoteMovie()))
         assertNotNull(movieEntities)
         assertEquals(movieResponses.size.toLong(), movieEntities.data?.size?.toLong())
     }
 
     @Test
     fun getTv() {
-        val dummyTv = MutableLiveData<List<TvEntity>>()
-        dummyTv.value = DataDummyTv.getDummyRemoteTv()
-        `when`(local.getTv()).thenReturn(dummyTv)
-//        com.nhaarman.mockitokotlin2.doAnswer { invocation ->
-//            (invocation.arguments[0] as RemoteDataSource.LoadTvCallback)
-//                .onTvRecevied(tvResponses)
-//            null
-//        }.`when`(remote).getTv(com.nhaarman.mockitokotlin2.any())
-        val tvEntities = LiveDataTestUtil.getValue(appRepository.getTv())
-//        com.nhaarman.mockitokotlin2.verify(remote).getTv(com.nhaarman.mockitokotlin2.any())
+        val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, TvEntity>
+        `when`(local.getTv()).thenReturn(dataSourceFactory)
+        val tvEntities = Resource.success(PagedListUtil.mockPagedList(DataDummyTv.getDummyRemoteTv()))
         assertNotNull(tvEntities)
         assertEquals(tvResponses.size.toLong(), tvEntities.data?.size?.toLong())
     }
 
+    @Test
+    fun getFavTv() {
+        val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, TvEntity>
+        `when`(local.getFavTv()).thenReturn(dataSourceFactory)
+        val tvEntities = Resource.success(PagedListUtil.mockPagedList(DataDummyTv.getDummyRemoteTv()))
+        assertNotNull(tvEntities)
+        assertEquals(tvResponses.size.toLong(), tvEntities.data?.size?.toLong())
+    }
 
-
-
+    @Test
+    fun getFavMovies() {
+        val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, MovieEntity>
+        `when`(local.getFavMovies()).thenReturn(dataSourceFactory)
+        val movieEntities = Resource.success(PagedListUtil.mockPagedList(DataDummyMovie.getDummyRemoteMovie()))
+        assertNotNull(movieEntities)
+        assertEquals(movieResponses.size.toLong(), movieEntities.data?.size?.toLong())
+    }
 }

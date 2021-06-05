@@ -42,7 +42,8 @@ class MovieActivity : AppCompatActivity() {
             showLoading(false)
             binding.rvMovie.setHasFixedSize(true)
             movieListAdapter= MovieListAdapter()
-            movieListAdapter.setMovies(movies.data)
+//            movieListAdapter.setMovies(movies.data)
+            movieListAdapter.submitList(movies.data)
             binding.rvMovie.adapter=movieListAdapter
             movieListAdapter.setOnItemClickCallback(object : MovieListAdapter.OnItemClickCallback{
                 override fun onItemClicked(data: MovieEntity) {

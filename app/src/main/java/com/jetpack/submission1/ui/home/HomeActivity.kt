@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jetpack.submission1.R
 import com.jetpack.submission1.data.source.local.entity.MovieEntity
 import com.jetpack.submission1.data.source.local.entity.TvEntity
@@ -26,6 +27,7 @@ import com.jetpack.submission1.ui.home.viewmodel.HomeViewModel
 import com.jetpack.submission1.ui.movie.MovieActivity
 import com.jetpack.submission1.ui.tv.TvActivity
 import com.jetpack.submission1.viewmodel.ViewModelFactory
+import com.jetpack.submission1.vo.Status
 
 @Suppress("DEPRECATION")
 class HomeActivity : AppCompatActivity() {
@@ -53,12 +55,25 @@ class HomeActivity : AppCompatActivity() {
     private fun showMovies(){
         val factory = ViewModelFactory.getInstance(this)
         val viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
+        movieCardAdapter= MovieCardAdapter()
         viewModel.getMovies().observe(this,{movies->
-            showLoading(false)
-            binding.rvMovie.setHasFixedSize(true)
-            movieCardAdapter= MovieCardAdapter()
-            movies.data?.let { movieCardAdapter.setMovies(it) }
-            binding.rvMovie.adapter=movieCardAdapter
+            if (movies != null) {
+                when (movies.status) {
+                    Status.LOADING -> showLoading(true)
+                    Status.SUCCESS -> {
+                        showLoading(false)
+                        movieCardAdapter.submitList(movies.data)
+                    }
+                    Status.ERROR -> {
+                        binding?.progressBar?.visibility = View.GONE
+                        Toast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            with(binding?.rvMovie) {
+                this?.setHasFixedSize(true)
+                this?.adapter = movieCardAdapter
+            }
             movieCardAdapter.setOnItemClickCallback(object :MovieCardAdapter.OnItemClickCallback{
                 override fun onItemClicked(data: MovieEntity) {
                     Toast.makeText(this@HomeActivity, data.posterPath, Toast.LENGTH_SHORT).show()
@@ -72,12 +87,28 @@ class HomeActivity : AppCompatActivity() {
     private fun showTvShow(){
         val factory = ViewModelFactory.getInstance(this)
         val viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
+        tvCardAdapter= TvCardAdapter()
         viewModel.getTv().observe(this,{tv->
+
+            if (tv != null) {
+                when (tv.status) {
+                    Status.LOADING -> showLoading(true)
+                    Status.SUCCESS -> {
+                        showLoading(false)
+                        tvCardAdapter.submitList(tv.data)
+                    }
+                    Status.ERROR -> {
+                        binding?.progressBar?.visibility = View.GONE
+                        Toast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            with(binding?.rvTv) {
+                this?.setHasFixedSize(true)
+                this?.adapter = tvCardAdapter
+            }
             showLoading(false)
             binding.rvTv.setHasFixedSize(true)
-            tvCardAdapter= TvCardAdapter()
-            tv.data?.let { tvCardAdapter.setTv(it) }
-            binding.rvTv.adapter=tvCardAdapter
             tvCardAdapter.setOnItemClickCallback(object :TvCardAdapter.OnItemClickCallback{
                 override fun onItemClicked(data: TvEntity) {
                     Toast.makeText(this@HomeActivity, data.name, Toast.LENGTH_SHORT).show()

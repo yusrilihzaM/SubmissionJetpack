@@ -9,10 +9,10 @@ import com.jetpack.submission1.data.source.local.entity.TvEntity
 @Dao
 interface AppDao {
     @Query("SELECT * FROM MovieEntity")
-    fun getMovies(): LiveData<List<MovieEntity>>
+    fun getMovies():  DataSource.Factory<Int, MovieEntity>
 
     @Query("SELECT * FROM MovieEntity WHERE favorite=1")
-    fun getFavMovies(): LiveData<List<MovieEntity>>
+    fun getFavMovies():  DataSource.Factory<Int, MovieEntity>
 
     @Transaction
     @Query("SELECT * FROM MovieEntity WHERE idMovie=:idMovie AND favorite=1")
@@ -25,10 +25,10 @@ interface AppDao {
     fun updateFavMovie(movie: MovieEntity)
 
     @Query("SELECT * FROM TvEntity")
-    fun getTv(): LiveData<List<TvEntity>>
+    fun getTv():  DataSource.Factory<Int, TvEntity>
 
     @Query("SELECT * FROM TvEntity WHERE favorite=1")
-    fun getFavTv(): LiveData<List<TvEntity>>
+    fun getFavTv(): DataSource.Factory<Int, TvEntity>
 
     @Transaction
     @Query("SELECT * FROM TvEntity WHERE tvId=:tvId AND favorite=1")

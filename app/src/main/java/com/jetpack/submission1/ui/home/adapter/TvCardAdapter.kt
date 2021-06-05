@@ -2,6 +2,8 @@ package com.jetpack.submission1.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
@@ -13,8 +15,18 @@ import com.jetpack.submission1.data.source.remote.response.TvResultsItem
 import com.jetpack.submission1.databinding.ItemCardBinding
 import java.util.*
 
-class TvCardAdapter: RecyclerView.Adapter<TvCardAdapter.TvViewHolder>() {
-
+class TvCardAdapter: PagedListAdapter<TvEntity, TvCardAdapter.TvViewHolder>(DIFF_CALLBACK) {
+    companion object {
+        private const val URL_IMAGE= BuildConfig.URL_IMAGE
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TvEntity>() {
+            override fun areItemsTheSame(oldItem: TvEntity, newItem: TvEntity): Boolean {
+                return oldItem.tvId == newItem.tvId
+            }
+            override fun areContentsTheSame(oldItem: TvEntity, newItem: TvEntity): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
     private var onItemClickCallback: TvCardAdapter.OnItemClickCallback? = null
     fun setOnItemClickCallback(onItemClickCallback: TvCardAdapter.OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
@@ -52,13 +64,13 @@ class TvCardAdapter: RecyclerView.Adapter<TvCardAdapter.TvViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: TvViewHolder, position: Int) {
-        holder.bind(listTvs[position])
+        val tvEntity = getItem(position)
+        if (tvEntity != null) {
+            holder.bind(tvEntity)
+        }
     }
-    override fun getItemCount(): Int = listTvs.size
     interface OnItemClickCallback {
         fun onItemClicked(data: TvEntity)
     }
-    companion object {
-        private const val URL_IMAGE= BuildConfig.URL_IMAGE
-    }
+
 }

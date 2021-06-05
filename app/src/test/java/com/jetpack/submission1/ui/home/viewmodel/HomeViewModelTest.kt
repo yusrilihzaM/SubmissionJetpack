@@ -4,6 +4,7 @@ import android.graphics.Movie
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.jetpack.submission1.data.AppRepostory
 import com.jetpack.submission1.data.source.local.entity.MovieEntity
 import com.jetpack.submission1.data.source.local.entity.TvEntity
@@ -31,11 +32,15 @@ class HomeViewModelTest {
     private lateinit var appRepostory: AppRepostory
 
     @Mock
-    private lateinit var observerMovie: Observer<Resource<List<MovieEntity>>>
+    private lateinit var observerMovie: Observer<Resource<PagedList<MovieEntity>>>
 
     @Mock
-    private lateinit var observerTv: Observer<Resource<List<TvEntity>>>
+    private lateinit var observerTv: Observer<Resource<PagedList<TvEntity>>>
 
+    @Mock
+    private lateinit var pagedListMovie: PagedList<MovieEntity>
+    @Mock
+    private lateinit var pagedListTv: PagedList<TvEntity>
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -46,9 +51,10 @@ class HomeViewModelTest {
 
     @Test
     fun getMovies() {
-        val movies= MutableLiveData<Resource<List<MovieEntity>>>()
-        val dummyMovies = Resource.success(DataDummyMovie.getDummyRemoteMovie())
+        val movies= MutableLiveData<Resource<PagedList<MovieEntity>>>()
+        val dummyMovies =  Resource.success(pagedListMovie)
         movies.value=dummyMovies
+        Mockito.`when`(dummyMovies.data?.size).thenReturn(20)
         Mockito.`when`(appRepostory.getMovies()).thenReturn( movies)
         val moviesEntities=viewModel.getMovies().value?.data
         verify(appRepostory).getMovies()
@@ -60,9 +66,10 @@ class HomeViewModelTest {
 
     @Test
     fun getTv() {
-        val tv= MutableLiveData<Resource<List<TvEntity>>>()
-        val dummyTv = Resource.success(DataDummyTv.getDummyRemoteTv())
+        val tv= MutableLiveData<Resource<PagedList<TvEntity>>>()
+        val dummyTv = Resource.success(pagedListTv)
         tv.value=dummyTv
+        Mockito.`when`(dummyTv.data?.size).thenReturn(20)
         Mockito.`when`(appRepostory.getTv()).thenReturn( tv)
         val tvEntities=viewModel.getTv().value?.data
         verify(appRepostory).getTv()

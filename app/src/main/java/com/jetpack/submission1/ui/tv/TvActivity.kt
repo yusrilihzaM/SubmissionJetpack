@@ -42,7 +42,8 @@ class TvActivity : AppCompatActivity() {
             showLoading(false)
             binding.rvMovie.setHasFixedSize(true)
             tvListAdapter= TvListAdapter()
-            tvListAdapter.setTv(tv.data)
+//            tvListAdapter.setTv(tv.data)
+            tvListAdapter.submitList(tv.data)
             binding.rvMovie.adapter=tvListAdapter
             tvListAdapter.setOnItemClickCallback(object : TvListAdapter.OnItemClickCallback{
                 override fun onItemClicked(data: TvEntity) {

@@ -15,13 +15,13 @@ class LocalDataSource private constructor(private val appDao: AppDao)  {
             INSTANCE ?: LocalDataSource(appDao)
     }
 
-    fun getMovies(): LiveData<List<MovieEntity>> = appDao.getMovies()
+    fun getMovies(): DataSource.Factory<Int, MovieEntity> = appDao.getMovies()
 
-    fun getTv(): LiveData<List<TvEntity>> = appDao.getTv()
+    fun getTv(): DataSource.Factory<Int, TvEntity> = appDao.getTv()
 
-    fun getFavMovies(): LiveData<List<MovieEntity>> = appDao.getFavMovies()
+    fun getFavMovies(): DataSource.Factory<Int, MovieEntity> = appDao.getFavMovies()
 
-    fun getFavTv():LiveData<List<TvEntity>> = appDao.getFavTv()
+    fun getFavTv(): DataSource.Factory<Int, TvEntity> = appDao.getFavTv()
 
     fun setFavMovie(movie: MovieEntity, newState: Boolean) {
         movie.favorite = newState
