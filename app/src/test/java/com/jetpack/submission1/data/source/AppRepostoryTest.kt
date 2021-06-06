@@ -25,9 +25,9 @@ class AppRepostoryTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val remote = Mockito.mock(RemoteDataSource::class.java)
-    private val local = Mockito.mock(LocalDataSource::class.java)
-    private val appExecutors = Mockito.mock(AppExecutors::class.java)
+    private val remote = mock(RemoteDataSource::class.java)
+    private val local = mock(LocalDataSource::class.java)
+    private val appExecutors = mock(AppExecutors::class.java)
     private val appRepository = FakeAppRepostory(remote,local, appExecutors)
 
     private val movieResponses = DataDummyMovie.getDummyRemoteMovie()
@@ -38,6 +38,8 @@ class AppRepostoryTest {
     fun getMovies() {
         val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, MovieEntity>
         `when`(local.getMovies()).thenReturn(dataSourceFactory)
+        appRepository.getMovies()
+        verify(local).getMovies()
         val movieEntities = Resource.success(PagedListUtil.mockPagedList(DataDummyMovie.getDummyRemoteMovie()))
         assertNotNull(movieEntities)
         assertEquals(movieResponses.size.toLong(), movieEntities.data?.size?.toLong())
@@ -47,6 +49,8 @@ class AppRepostoryTest {
     fun getTv() {
         val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, TvEntity>
         `when`(local.getTv()).thenReturn(dataSourceFactory)
+        appRepository.getTv()
+        verify(local).getTv()
         val tvEntities = Resource.success(PagedListUtil.mockPagedList(DataDummyTv.getDummyRemoteTv()))
         assertNotNull(tvEntities)
         assertEquals(tvResponses.size.toLong(), tvEntities.data?.size?.toLong())
@@ -56,6 +60,8 @@ class AppRepostoryTest {
     fun getFavTv() {
         val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, TvEntity>
         `when`(local.getFavTv()).thenReturn(dataSourceFactory)
+        appRepository.getFavTv()
+        verify(local).getFavTv()
         val tvEntities = Resource.success(PagedListUtil.mockPagedList(DataDummyTv.getDummyRemoteTv()))
         assertNotNull(tvEntities)
         assertEquals(tvResponses.size.toLong(), tvEntities.data?.size?.toLong())
@@ -65,6 +71,8 @@ class AppRepostoryTest {
     fun getFavMovies() {
         val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, MovieEntity>
         `when`(local.getFavMovies()).thenReturn(dataSourceFactory)
+        appRepository.getFavMovie()
+        verify(local).getFavMovies()
         val movieEntities = Resource.success(PagedListUtil.mockPagedList(DataDummyMovie.getDummyRemoteMovie()))
         assertNotNull(movieEntities)
         assertEquals(movieResponses.size.toLong(), movieEntities.data?.size?.toLong())
