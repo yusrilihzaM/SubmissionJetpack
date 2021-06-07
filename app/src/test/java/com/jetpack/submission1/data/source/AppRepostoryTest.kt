@@ -39,7 +39,9 @@ class AppRepostoryTest {
         val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, MovieEntity>
         `when`(local.getMovies()).thenReturn(dataSourceFactory)
         appRepository.getMovies()
+
         verify(local).getMovies()
+
         val movieEntities = Resource.success(PagedListUtil.mockPagedList(DataDummyMovie.getDummyRemoteMovie()))
         assertNotNull(movieEntities)
         assertEquals(movieResponses.size.toLong(), movieEntities.data?.size?.toLong())
@@ -50,7 +52,9 @@ class AppRepostoryTest {
         val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, TvEntity>
         `when`(local.getTv()).thenReturn(dataSourceFactory)
         appRepository.getTv()
+
         verify(local).getTv()
+
         val tvEntities = Resource.success(PagedListUtil.mockPagedList(DataDummyTv.getDummyRemoteTv()))
         assertNotNull(tvEntities)
         assertEquals(tvResponses.size.toLong(), tvEntities.data?.size?.toLong())
@@ -61,7 +65,9 @@ class AppRepostoryTest {
         val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, TvEntity>
         `when`(local.getFavTv()).thenReturn(dataSourceFactory)
         appRepository.getFavTv()
+
         verify(local).getFavTv()
+
         val tvEntities = Resource.success(PagedListUtil.mockPagedList(DataDummyTv.getDummyRemoteTv()))
         assertNotNull(tvEntities)
         assertEquals(tvResponses.size.toLong(), tvEntities.data?.size?.toLong())
@@ -72,7 +78,9 @@ class AppRepostoryTest {
         val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, MovieEntity>
         `when`(local.getFavMovies()).thenReturn(dataSourceFactory)
         appRepository.getFavMovie()
+
         verify(local).getFavMovies()
+
         val movieEntities = Resource.success(PagedListUtil.mockPagedList(DataDummyMovie.getDummyRemoteMovie()))
         assertNotNull(movieEntities)
         assertEquals(movieResponses.size.toLong(), movieEntities.data?.size?.toLong())
